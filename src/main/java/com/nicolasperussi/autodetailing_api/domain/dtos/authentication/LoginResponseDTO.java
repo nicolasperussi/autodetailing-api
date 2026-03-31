@@ -1,4 +1,4 @@
-package com.nicolasperussi.autodetailing_api.domain.dtos;
+package com.nicolasperussi.autodetailing_api.domain.dtos.authentication;
 
 import com.nicolasperussi.autodetailing_api.domain.User;
 

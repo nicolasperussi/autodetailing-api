@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class User implements UserDetails {
 
     private boolean isActive;
 
+    private Instant createdAt;
+    private Instant updatedAt;
+
     public User() {
     }
 
@@ -40,6 +44,7 @@ public class User implements UserDetails {
         this.passwordHash = passwordHash;
         this.role = role;
         this.isActive = true;
+        this.createdAt = Instant.now();
     }
 
     public String getId() {
@@ -84,6 +89,22 @@ public class User implements UserDetails {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
