@@ -1,5 +1,7 @@
 package com.nicolasperussi.autodetailing_api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nicolasperussi.autodetailing_api.domain.enums.UserRole;
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_user")
+@JsonIgnoreProperties({"passwordHash", "password", "username", "enabled", "credentialsNonExpired", "accountNonExpired", "accountNonLocked",
+        "authorities"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -88,7 +92,7 @@ public class User implements UserDetails {
             return List.of(
                     new SimpleGrantedAuthority("ROLE_MANAGER"),
                     new SimpleGrantedAuthority("ROLE_DETAILER")
-            );
+                          );
         } else {
             return List.of(new SimpleGrantedAuthority("ROLE_DETAILER"));
         }
