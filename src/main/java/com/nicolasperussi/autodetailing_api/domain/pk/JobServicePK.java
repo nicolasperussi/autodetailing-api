@@ -1,8 +1,8 @@
 package com.nicolasperussi.autodetailing_api.domain.pk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nicolasperussi.autodetailing_api.domain.Booking;
 import com.nicolasperussi.autodetailing_api.domain.Job;
-import com.nicolasperussi.autodetailing_api.domain.Service;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -11,26 +11,26 @@ import jakarta.persistence.ManyToOne;
 public class JobServicePK {
     @ManyToOne
     @JoinColumn(name = "job_id")
-    private Job job;
+    private Booking booking;
     @ManyToOne
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Job job;
 
     @JsonIgnore
-    public Job getJob() {
+    public Booking getJob() {
+        return booking;
+    }
+
+    public void setJob(Booking booking) {
+        this.booking = booking;
+    }
+
+    @JsonIgnore
+    public Job getService() {
         return job;
     }
 
-    public void setJob(Job job) {
+    public void setService(Job job) {
         this.job = job;
-    }
-
-    @JsonIgnore
-    public Service getService() {
-        return service;
-    }
-
-    public void setService(Service service) {
-        this.service = service;
     }
 }

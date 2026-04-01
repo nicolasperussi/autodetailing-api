@@ -25,9 +25,9 @@ public class Seeding implements CommandLineRunner {
     @Autowired
     private ServiceRepository serviceRepository;
     @Autowired
-    private JobRepository jobRepository;
+    private BookingRepository bookingRepository;
     @Autowired
-    private JobServiceRepository jobItemRepository;
+    private BookingJobRepository jobItemRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -72,17 +72,17 @@ public class Seeding implements CommandLineRunner {
 
         customerRepository.saveAll(List.of(client1, client2));
 
-        Service s1 = new Service("Lavagem Detalhada", "Limpeza profunda com pincéis", new BigDecimal("150.00"), 120);
-        Service s2 = new Service("Polimento Técnico", "Correção de pintura", new BigDecimal("450.00"), 360);
-        Service s3 = new Service("Higienização Interna", "Limpeza de bancos e teto", new BigDecimal("200.00"), 180);
+        Job s1 = new Job("Lavagem Detalhada", "Limpeza profunda com pincéis", new BigDecimal("150.00"), 120);
+        Job s2 = new Job("Polimento Técnico", "Correção de pintura", new BigDecimal("450.00"), 360);
+        Job s3 = new Job("Higienização Interna", "Limpeza de bancos e teto", new BigDecimal("200.00"), 180);
         serviceRepository.saveAll(List.of(s1, s2, s3));
 
-        Job j1 = new Job(client1, car1, employee, Instant.parse("2026-04-10T10:00:00Z"), s1.getCurrentPrice());
+        Booking j1 = new Booking(client1, car1, employee, Instant.parse("2026-04-10T10:00:00Z"), s1.getCurrentPrice());
 
         BigDecimal totalNicolas = s2.getCurrentPrice().add(s3.getCurrentPrice());
-        Job j2 = new Job(client1, car2, manager, Instant.parse("2026-04-12T09:00:00Z"), totalNicolas);
+        Booking j2 = new Booking(client1, car2, manager, Instant.parse("2026-04-12T09:00:00Z"), totalNicolas);
 
-        jobRepository.saveAll(List.of(j1, j2));
+        bookingRepository.saveAll(List.of(j1, j2));
 
         JobService ji1 = new JobService(j1, s1, s1.getCurrentPrice());
         JobService ji2 = new JobService(j2, s2, s2.getCurrentPrice());

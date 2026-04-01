@@ -18,15 +18,15 @@ public class JobService {
     public JobService() {
     }
 
-    public JobService(Job job, Service service, BigDecimal price) {
-        id.setJob(job);
-        id.setService(service);
+    public JobService(Booking booking, Job job, BigDecimal price) {
+        id.setJob(booking);
+        id.setService(job);
         this.priceAtTheTime = price;
     }
 
-    public Job getJob() {return id.getJob();}
+    public Booking getJob() {return id.getJob();}
 
-    public Service getService() {return id.getService();}
+    public Job getService() {return id.getService();}
 
     public BigDecimal getPriceAtTheTime() {return this.priceAtTheTime;}
 }
