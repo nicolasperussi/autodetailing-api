@@ -1,12 +1,14 @@
 package com.nicolasperussi.autodetailing_api.services;
 
 import com.nicolasperussi.autodetailing_api.domain.Customer;
+import com.nicolasperussi.autodetailing_api.domain.dtos.customer.UpdateCustomerDTO;
 import com.nicolasperussi.autodetailing_api.exceptions.ResourceNotFoundException;
 import com.nicolasperussi.autodetailing_api.repositories.CustomerRepository;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -14,7 +16,7 @@ public class CustomerService {
     @Autowired
     private CustomerRepository repository;
 
-    public List<Customer> findAll() { return repository.findAll(); }
+    public List<Customer> findAll() {return repository.findAll();}
 
     public Customer findById(@NonNull String id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Couldn't find Customer with id " + id));
@@ -24,5 +26,16 @@ public class CustomerService {
         return repository.save(customer);
     }
 
+    public Customer update(String id, UpdateCustomerDTO data) {
+        Customer customer = this.findById(id);
 
+        if (data.name() != null) customer.setName(data.name());
+        if (data.phone() != null) customer.setName(data.phone());
+        if (data.email() != null) customer.setName(data.email());
+        if (data.document() != null) customer.setName(data.document());
+
+        customer.setUpdatedAt(Instant.now());
+
+        return this.repository.save(customer);
+    }
 }
