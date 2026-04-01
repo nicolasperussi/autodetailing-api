@@ -1,9 +1,11 @@
 package com.nicolasperussi.autodetailing_api.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Entity
 @Table(name = "tb_service")
@@ -19,6 +21,11 @@ public class Service implements Serializable {
     private BigDecimal currentPrice;
     private int estimatedTimeMins;
     private boolean isActive;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    private Instant createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    private Instant updatedAt;
 
     public Service() {
     }
