@@ -48,4 +48,10 @@ public class BookingController {
         return ResponseEntity.created(uri).build();
     }
 
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Void> updateStatus(@NonNull @PathVariable String id, @RequestParam Integer status) {
+        this.service.updateStatus(id, status);
+        return ResponseEntity.noContent().build();
+    }
+
 }

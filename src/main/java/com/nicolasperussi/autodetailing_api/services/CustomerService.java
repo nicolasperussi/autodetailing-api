@@ -49,7 +49,6 @@ public class CustomerService {
 
         // TODO: add verification to see if anything has really changed before updating 'updatedAt'
         customer.setUpdatedAt(Instant.now());
-        System.out.print(customer);
 
         return this.repository.save(customer);
     }

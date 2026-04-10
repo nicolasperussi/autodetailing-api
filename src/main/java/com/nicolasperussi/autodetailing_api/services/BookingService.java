@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,5 +68,17 @@ public class BookingService {
         bookingJobRepository.saveAll(bookingJobs);
 
         return newBooking;
+    }
+
+    public void updateStatus(String id, Integer newStatus) {
+        Booking booking = this.findById(id);
+        booking.setStatus(newStatus);
+
+        if (newStatus == 3) {
+            booking.setCompletedAt(Instant.now());
+        }
+
+        booking.setUpdatedAt(Instant.now());
+        this.repository.save(booking);
     }
 }

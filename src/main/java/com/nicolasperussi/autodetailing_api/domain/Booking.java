@@ -1,6 +1,7 @@
 package com.nicolasperussi.autodetailing_api.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.nicolasperussi.autodetailing_api.domain.enums.JobStatus;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -23,7 +24,8 @@ public class Booking implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Integer status;
+    @Enumerated(EnumType.STRING)
+    private JobStatus status;
     private Instant scheduledDate;
     private Instant completedAt;
 
@@ -44,7 +46,7 @@ public class Booking implements Serializable {
         this.user = user;
         this.scheduledDate = scheduledDate;
         this.totalPrice = totalPrice;
-        setStatus(1);
+        this.status = JobStatus.SCHEDULED;
         this.createdAt = Instant.now();
     }
 
@@ -80,12 +82,12 @@ public class Booking implements Serializable {
         this.user = user;
     }
 
-    public Integer getStatus() {
+    public JobStatus getStatus() {
         return status;
     }
 
     public void setStatus(Integer status) {
-        this.status = status;
+        this.status = JobStatus.valueOf(status);
     }
 
     public Instant getScheduledDate() {

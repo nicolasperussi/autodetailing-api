@@ -2,6 +2,7 @@ package com.nicolasperussi.autodetailing_api.controllers;
 
 import com.nicolasperussi.autodetailing_api.domain.Vehicle;
 import com.nicolasperussi.autodetailing_api.domain.dtos.vehicle.CreateVehicleDTO;
+import com.nicolasperussi.autodetailing_api.domain.dtos.vehicle.UpdateVehicleDTO;
 import com.nicolasperussi.autodetailing_api.domain.dtos.vehicle.VehicleByCustomerResponseDTO;
 import com.nicolasperussi.autodetailing_api.services.VehicleService;
 import jakarta.validation.Valid;
@@ -45,5 +46,11 @@ public class VehicleController {
         Vehicle newVehicle = this.service.create(data);
         URI uri = uriBuilder.path("/vehicle/{id}").buildAndExpand(newVehicle.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PatchMapping("/{id}/update")
+    public ResponseEntity<Void> updateVehicle(@NonNull @PathVariable String id, @Valid @RequestBody UpdateVehicleDTO data) {
+        this.service.update(id, data);
+        return ResponseEntity.noContent().build();
     }
 }
