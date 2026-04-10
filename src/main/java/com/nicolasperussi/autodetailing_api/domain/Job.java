@@ -36,6 +36,7 @@ public class Job implements Serializable {
         this.currentPrice = currentPrice;
         this.estimatedTimeMins = estimatedTimeMins;
         this.isActive = true;
+        this.createdAt = Instant.now();
     }
 
     public String getId() {
@@ -80,5 +81,21 @@ public class Job implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

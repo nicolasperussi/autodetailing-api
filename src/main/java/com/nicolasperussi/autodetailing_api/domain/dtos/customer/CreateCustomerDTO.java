@@ -8,6 +8,6 @@ public record CreateCustomerDTO(
         String phone,
         @Email String email,
         String document,
-        CreateVehicleDTO vehicle
+        CreateCustomerVehicleDTO vehicle
     ) {
 }

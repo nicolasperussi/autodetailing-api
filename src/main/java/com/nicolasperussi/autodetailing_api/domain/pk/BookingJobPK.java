@@ -8,7 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Embeddable
-public class JobServicePK {
+public class BookingJobPK {
     @ManyToOne
     @JoinColumn(name = "job_id")
     private Booking booking;
@@ -17,20 +17,20 @@ public class JobServicePK {
     private Job job;
 
     @JsonIgnore
-    public Booking getJob() {
+    public Booking getBooking() {
         return booking;
     }
 
-    public void setJob(Booking booking) {
+    public void setBooking(Booking booking) {
         this.booking = booking;
     }
 
     @JsonIgnore
-    public Job getService() {
+    public Job getJob() {
         return job;
     }
 
-    public void setService(Job job) {
+    public void setJob(Job job) {
         this.job = job;
     }
 }

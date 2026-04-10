@@ -1,10 +1,8 @@
 package com.nicolasperussi.autodetailing_api.controllers;
 
 import com.nicolasperussi.autodetailing_api.domain.Customer;
-import com.nicolasperussi.autodetailing_api.domain.Vehicle;
 import com.nicolasperussi.autodetailing_api.domain.dtos.customer.CreateCustomerDTO;
 import com.nicolasperussi.autodetailing_api.domain.dtos.customer.UpdateCustomerDTO;
-import com.nicolasperussi.autodetailing_api.repositories.CustomerRepository;
 import com.nicolasperussi.autodetailing_api.services.CustomerService;
 import jakarta.validation.Valid;
 import org.jspecify.annotations.NonNull;
@@ -25,9 +23,6 @@ public class CustomerController {
     @Autowired
     private CustomerService service;
 
-    @Autowired
-    private CustomerRepository repository;
-
     @GetMapping()
     public ResponseEntity<List<Customer>> findAll() {
         List<Customer> list = service.findAll();
@@ -45,38 +40,15 @@ public class CustomerController {
 
     @PostMapping()
     public ResponseEntity<Void> create(@Valid @RequestBody CreateCustomerDTO data, UriComponentsBuilder uriBuilder) {
-        Customer customer = new Customer(data.name(), data.phone(), data.email(), data.document());
-        Vehicle customerVehicle = new Vehicle(
-                data.vehicle().licensePlate(),
-                data.vehicle().brand(),
-                data.vehicle().model(),
-                data.vehicle().year(),
-                data.vehicle().color()
-        );
-
-        customer.addVehicle(customerVehicle);
-
-        service.create(customer);
-
-        URI uri = uriBuilder.path("/customers/{id}").buildAndExpand(customer.getId()).toUri();
+        Customer newCustomer = this.service.create(data);
+        URI uri = uriBuilder.path("/customers/{id}").buildAndExpand(newCustomer.getId()).toUri();
 
         return ResponseEntity.created(uri).build();
     }
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<Void> update(@NonNull @PathVariable String id, @Valid @RequestBody UpdateCustomerDTO data) {
-        Customer customer = this.service.findById(id);
-
-        if (data.name() != null) customer.setName(data.name());
-        if (data.document() != null) customer.setDocument(data.document());
-        if (data.email() != null) customer.setEmail(data.email());
-        if (data.phone() != null) customer.setPhone(data.phone());
-
-        // TODO: add verification to see if anything has really changed before updating 'updatedAt'
-
-        customer.setUpdatedAt(Instant.now());
-        this.repository.save(customer);
-
+        this.service.update(id, data);
         return ResponseEntity.noContent().build();
     }
 

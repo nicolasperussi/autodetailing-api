@@ -47,8 +47,9 @@ public class UserService {
     }
 
     public void updateStatus(String id, boolean active) {
-        User user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuario nao encontrado"));
+        User user = this.findById(id);
         user.setActive(active);
-        repository.save(user);
+        user.setUpdatedAt(Instant.now());
+        this.repository.save(user);
     }
 }
