@@ -7,6 +7,8 @@ import com.nicolasperussi.autodetailing_api.services.CustomerService;
 import jakarta.validation.Valid;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,8 @@ public class CustomerController {
     private CustomerService service;
 
     @GetMapping()
-    public ResponseEntity<List<Customer>> findAll() {
-        List<Customer> list = service.findAll();
+    public ResponseEntity<Page<Customer>> findAll(Pageable pageable) {
+        Page<Customer> list = service.findAll(pageable);
 
         if (list.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 

@@ -8,6 +8,8 @@ import com.nicolasperussi.autodetailing_api.exceptions.ResourceNotFoundException
 import com.nicolasperussi.autodetailing_api.repositories.CustomerRepository;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -18,7 +20,7 @@ public class CustomerService {
     @Autowired
     private CustomerRepository repository;
 
-    public List<Customer> findAll() {return repository.findAll();}
+    public Page<Customer> findAll(Pageable pageable) {return repository.findAll(pageable);}
 
     public Customer findById(@NonNull String id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Couldn't find Customer with id " + id));

@@ -1,6 +1,8 @@
 package com.nicolasperussi.autodetailing_api.repositories;
 
 import com.nicolasperussi.autodetailing_api.domain.Booking;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, String> {
-    List<Booking> findByCustomerId(String customerId);
-    List<Booking> findByVehicleId(String vehicleId);
-    List<Booking> findByUserId(String userId);
+    Page<Booking> findByCustomerId(String customerId, Pageable pageable);
+    Page<Booking> findByVehicleId(String vehicleId, Pageable pageable);
+    Page<Booking> findByUserId(String userId, Pageable pageable);
     @Query("SELECT bj.id.booking FROM BookingJob bj WHERE bj.id.job.id = :jobId")
-    List<Booking> findByJobId(@Param("jobId") String jobId);
+    Page<Booking> findByJobId(@Param("jobId") String jobId, Pageable pageable);
 }

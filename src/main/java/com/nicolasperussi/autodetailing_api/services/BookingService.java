@@ -5,6 +5,8 @@ import com.nicolasperussi.autodetailing_api.domain.dtos.booking.CreateBookingDTO
 import com.nicolasperussi.autodetailing_api.exceptions.ResourceNotFoundException;
 import com.nicolasperussi.autodetailing_api.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,13 +30,13 @@ public class BookingService {
     private BookingJobRepository bookingJobRepository;
 
 
-    public List<Booking> findBookings(String customerId, String vehicleId, String userId, String jobId) {
-        if (customerId != null) return this.repository.findByCustomerId(customerId);
-        if (vehicleId != null) return this.repository.findByVehicleId(vehicleId);
-        if (userId != null) return this.repository.findByUserId(userId);
-        if (jobId != null) return this.repository.findByJobId(jobId);
+    public Page<Booking> findBookings(String customerId, String vehicleId, String userId, String jobId, Pageable pageable) {
+        if (customerId != null) return this.repository.findByCustomerId(customerId, pageable);
+        if (vehicleId != null) return this.repository.findByVehicleId(vehicleId, pageable);
+        if (userId != null) return this.repository.findByUserId(userId, pageable);
+        if (jobId != null) return this.repository.findByJobId(jobId, pageable);
 
-        return this.repository.findAll();
+        return this.repository.findAll(pageable);
     }
 
     public Booking findById(String id) {

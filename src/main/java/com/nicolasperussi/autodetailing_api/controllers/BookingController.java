@@ -6,6 +6,10 @@ import com.nicolasperussi.autodetailing_api.services.BookingService;
 import jakarta.validation.Valid;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +25,14 @@ public class BookingController {
     private BookingService service;
 
     @GetMapping()
-    public ResponseEntity<List<Booking>> findAll(
+    public ResponseEntity<Page<Booking>> findAll(
             @RequestParam(name = "customer", required = false) String customerId,
             @RequestParam(name = "vehicle", required = false) String vehicleId,
             @RequestParam(name = "user", required = false) String userId,
-            @RequestParam(name = "job", required = false) String jobId
+            @RequestParam(name = "job", required = false) String jobId,
+            @PageableDefault(size = 10, page = 0, sort = "scheduledDate", direction = Sort.Direction.DESC) Pageable pageable
                                                 ) {
-        List<Booking> list = this.service.findBookings(customerId, vehicleId, userId, jobId);
+        Page<Booking> list = this.service.findBookings(customerId, vehicleId, userId, jobId, pageable);
 
         if (list.isEmpty()) new ResponseEntity<>(HttpStatus.NO_CONTENT);
 

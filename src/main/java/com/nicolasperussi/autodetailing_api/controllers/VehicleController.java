@@ -8,6 +8,9 @@ import com.nicolasperussi.autodetailing_api.services.VehicleService;
 import jakarta.validation.Valid;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,8 +26,8 @@ public class VehicleController {
     private VehicleService service;
 
     @GetMapping()
-    public ResponseEntity<List<Vehicle>> findAll() {
-        List<Vehicle> vehicles = this.service.findAll();
+    public ResponseEntity<Page<Vehicle>> findAll(@PageableDefault(size = 10, page = 0, sort = "brand") Pageable pageable) {
+        Page<Vehicle> vehicles = this.service.findAll(pageable);
         return ResponseEntity.ok(vehicles);
     }
 

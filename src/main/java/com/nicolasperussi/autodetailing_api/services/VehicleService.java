@@ -11,6 +11,8 @@ import com.nicolasperussi.autodetailing_api.repositories.CustomerRepository;
 import com.nicolasperussi.autodetailing_api.repositories.VehicleRepository;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -24,7 +26,7 @@ public class VehicleService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public List<Vehicle> findAll() {return repository.findAll();}
+    public Page<Vehicle> findAll(Pageable pageable) {return repository.findAll(pageable);}
 
     public Vehicle findById(String id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Couldn't find Vehicle with id " + id));
